@@ -5,6 +5,16 @@ import (
 )
 
 func intopost(infix string) string {
+	
+	//Creates a map with special characters and maps them to integers
+	specials := map[rune]int{'*': 10, '.': 9, '|': 8}
+
+	//Arrray of runes
+	pofix := []rune{} //rune-character on the screen diplayed in UTF-8
+
+	//Stack stores operators from the infix regular expression
+	s := []rune{}
+
 
 	return string(pofix)
 }
