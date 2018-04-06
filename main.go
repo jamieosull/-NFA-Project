@@ -26,10 +26,6 @@ type nfa struct {
 	out  *state 
 }
 
-
-
-
-
 func intopost(infix string) string {
 	
 	//Creates a map with special characters and maps them to integers
@@ -81,6 +77,18 @@ func intopost(infix string) string {
 
 
 	return string(pofix)
+}
+
+// searches throught all states
+func addState(l []*state, s *state, a *state) []*state {
+	l = append(l, s)
+	if s != a && s.symbol == 0 {
+		l = addState(l, s.edge1, a)
+		if s.edge2 != nil {
+			l = addState(l, s.edge2, a)
+		}
+	}
+	return l
 }
 
 func main() {
