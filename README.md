@@ -7,7 +7,7 @@ This Program is written in Go Programming language, you need to install Go on yo
 Instructions here https://golang.org/doc/install
 Clone the repo and open git bash (or similar) in the folder and then type :
 
-1)go build main.go
+1)go build main.go and then type: 
 2)go run main.go
 
 The program will run and you will be asked to enter the Regular expression you want to use. Then you will be asked to input a string to check against that regular expression. The result will be printed out to your screen.
