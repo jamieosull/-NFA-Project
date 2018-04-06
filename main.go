@@ -193,16 +193,24 @@ func main() {
 	
 	//scanner for user input for regular expresion
 	scanner := bufio.NewScanner(os.Stdin)
-	fmt.Println("Enter you regular expresion")
+	fmt.Println("Enter you regular expresion")// Infix notation
 	scanner.Scan()
 	
 	//user input to compare the string and regular expresion
-	//infix := scanner.Text()
+	infix := scanner.Text()
 	fmt.Println("Enter the string you want to check against your first Input")
 	scanner.Scan()
 	
 	// Takes in input to check the string
-	//string := scanner.Text()
+	string := scanner.Text()
+	
+	//converts the infix notation to postfix notation
+	postfix := intopost(infix)
+	
+	fmt.Println(poMatch(strings.ToLower(postfix), strings.ToLower(checkString)))
+
+	
+	
 	
 
 	
