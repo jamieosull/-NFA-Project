@@ -93,7 +93,7 @@ func addState(l []*state, s *state, a *state) []*state {
 
 //match regular expresion with a string
 func poMatch(postfix string, s string) bool {
-	//isMatch is false by default
+	//isMatch is false(default)
 	isMatch := false
 	//postFixtoNfa func to get the nfa of input
 	poNfa := postfixToNfa(postfix)
@@ -101,11 +101,30 @@ func poMatch(postfix string, s string) bool {
 	current := []*state{}
 	next := []*state{}
 	
-	// adds current to fuction addState
+	// adds current to function addState
 	current = addState(current[:], poNfa.initial, poNfa.accept)
 	
-	
-	
+	//loops through each rune 
+	for _, r := range s {
+		//loop through each nfa pointer in current
+		for _, c := range current {
+			//if symbol of the nfa point equals the rune
+			// then next will equal to the state with input
+			if c.symbol == r {
+				next = addState(next[:], c.edge1, poNfa.out)
+			}
+		}
+		// set current to next and when next equals to pointer array
+		current, next = next, []*state{}
+	}
+	// Loop through nfa pointer in current
+	for _, c := range current {
+		// if the current state is equal to the accept state of the nfa is match is set to true
+		if c == poNfa.out {
+			isMatch = true
+			break
+		}
+	}
 
 	return isMatch
 }
