@@ -79,7 +79,7 @@ func intopost(infix string) string {
 	return string(pofix)
 }
 
-// searches throught all states
+// Helper function, searches through all states
 func addState(l []*state, s *state, a *state) []*state {
 	l = append(l, s)
 	if s != a && s.symbol == 0 {
@@ -89,6 +89,25 @@ func addState(l []*state, s *state, a *state) []*state {
 		}
 	}
 	return l
+}
+
+//match regular expresion with a string
+func poMatch(postfix string, s string) bool {
+	//isMatch is false by default
+	isMatch := false
+	//postFixtoNfa func to get the nfa of input
+	poNfa := postfixToNfa(postfix)
+	//Set current and next nfa pointer arrays
+	current := []*state{}
+	next := []*state{}
+	
+	// adds current to fuction addState
+	current = addState(current[:], poNfa.initial, poNfa.accept)
+	
+	
+	
+
+	return isMatch
 }
 
 func main() {
