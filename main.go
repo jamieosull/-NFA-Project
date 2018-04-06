@@ -1,3 +1,6 @@
+// Adapted from https://swtch.com/~rsc/regexp/regexp1.html
+// Adapted from https://github.com/ianmcloughlin
+
 package main
 
 import (
@@ -11,6 +14,16 @@ type state struct {
 	edge2  *state
 }
 
+
+//As the compiler scans the postfix expression, it maintains a stack of computed NFA fragments.
+// Literals push new NFA fragments onto the stack, while operators pop fragments off the stack and then push a new fragment.
+// For example, after compiling the abb in abb.+.a., the stack contains NFA fragments for a, b, and b. The compilation of the . 
+// that follows pops the two b NFA fragment from the stack and pushes an NFA fragment for the concatenation bb..
+// Each NFA fragment is defined by its start state and its outgoing arrows:
+type nfa struct { 
+	start *state // pointer to the start
+	out  *state // pointer to the end
+}
 
 
 func intopost(infix string) string {
