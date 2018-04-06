@@ -5,6 +5,7 @@ package main
 
 import (
 	"fmt"
+	"bufio"
 )
 
 // Setting up a struct that hold type rune & pointers to two edges
@@ -21,8 +22,8 @@ type state struct {
 // that follows pops the two b NFA fragment from the stack and pushes an NFA fragment for the concatenation bb..
 // Each NFA fragment is defined by its start state and its outgoing arrows:
 type nfa struct { 
-	start *state // pointer to the start
-	out  *state // pointer to the end
+	start *state 
+	out  *state 
 }
 
 
@@ -80,21 +81,38 @@ func intopost(infix string) string {
 }
 
 func main() {
+	
+	//scanner for user input for regular expresion
+	scanner := bufio.NewScanner(os.Stdin)
+	fmt.Println("Enter you regular expresion")
+	scanner.Scan()
+	
+	//user input to compare the string and regular expresion
+	infix := scanner.Text()
+	fmt.Println("Enter the string you want to check against your first Input")
+	scanner.Scan()
+	
+	// Takes in input to check the string
+	string := scanner.Text()
+	
+
+	
+	
 
 	//Answer: ab.c*.
-	fmt.Println("Infix:  ", "a.b.c*")
-	fmt.Println("Postfix: ", intopost("a.b.c*"))
+	//fmt.Println("Infix:  ", "a.b.c*")
+	//fmt.Println("Postfix: ", intopost("a.b.c*"))
 
 	//Answer: abd|.*
-	fmt.Println("Infix:  ", "(a.(b|d))*")
-	fmt.Println("Postfix: ", intopost("(a.(b|d))*"))
+	//fmt.Println("Infix:  ", "(a.(b|d))*")
+	//fmt.Println("Postfix: ", intopost("(a.(b|d))*"))
 
 	//Answer: abd|.c*.
-	fmt.Println("Infix:  ", "a.(b|d).c*")
-	fmt.Println("Postfix: ", intopost("a.(b|d).c*"))
+	//fmt.Println("Infix:  ", "a.(b|d).c*")
+	//fmt.Println("Postfix: ", intopost("a.(b|d).c*"))
 
 	//Answer: abb.+.c.
-	fmt.Println("Infix:  ", "a.(b.b)+.c")
-	fmt.Println("Postfix: ", intopost("a.(b.b)+.c"))
+	//fmt.Println("Infix:  ", "a.(b.b)+.c")
+	//fmt.Println("Postfix: ", intopost("a.(b.b)+.c"))
 
 }
