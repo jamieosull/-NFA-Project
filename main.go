@@ -27,6 +27,9 @@ type nfa struct {
 }
 
 
+
+
+
 func intopost(infix string) string {
 	
 	//Creates a map with special characters and maps them to integers
@@ -88,12 +91,12 @@ func main() {
 	scanner.Scan()
 	
 	//user input to compare the string and regular expresion
-	infix := scanner.Text()
+	//infix := scanner.Text()
 	fmt.Println("Enter the string you want to check against your first Input")
 	scanner.Scan()
 	
 	// Takes in input to check the string
-	string := scanner.Text()
+	//string := scanner.Text()
 	
 
 	
