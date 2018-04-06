@@ -4,6 +4,15 @@ import (
 	"fmt"
 )
 
+// Setting up a struct that hold type rune & pointers to two edges
+type state struct {
+	symbol rune
+	edge1  *state
+	edge2  *state
+}
+
+
+
 func intopost(infix string) string {
 	
 	//Creates a map with special characters and maps them to integers
