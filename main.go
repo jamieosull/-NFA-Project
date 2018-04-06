@@ -6,6 +6,7 @@ package main
 import (
 	"fmt"
 	"bufio"
+	"os"
 )
 
 // Setting up a struct that hold type rune & pointers to two edges
@@ -16,10 +17,6 @@ type state struct {
 }
 
 
-//As the compiler scans the postfix expression, it maintains a stack of computed NFA fragments.
-// Literals push new NFA fragments onto the stack, while operators pop fragments off the stack and then push a new fragment.
-// For example, after compiling the abb in abb.+.a., the stack contains NFA fragments for a, b, and b. The compilation of the . 
-// that follows pops the two b NFA fragment from the stack and pushes an NFA fragment for the concatenation bb..
 // Each NFA fragment is defined by its start state and its outgoing arrows:
 type nfa struct { 
 	start *state 
@@ -102,7 +99,7 @@ func poMatch(postfix string, s string) bool {
 	next := []*state{}
 	
 	// adds current to function addState
-	current = addState(current[:], poNfa.initial, poNfa.accept)
+	current = addState(current[:], poNfa.initial, poNfa.out)
 	
 	//loops through each rune 
 	for _, r := range s {
@@ -127,6 +124,69 @@ func poMatch(postfix string, s string) bool {
 	}
 
 	return isMatch
+}
+
+// Used to create a nfa
+func postfixToNfa(postfix string) *nfa {
+	//stack of nfa pointers
+	nfaStack := []*nfa{}
+	// Loop through each rune
+	for _, r := range postfix {
+		//switch statement for each rune that handles
+		switch r {
+
+		case '.':
+			//pops two fragments off of the stack concatentates the two and addes it back onto the stack
+			frag2 := nfaStack[len(nfaStack)-1]
+			nfaStack = nfaStack[:len(nfaStack)-1]
+			frag1 := nfaStack[len(nfaStack)-1]
+			nfaStack = nfaStack[:len(nfaStack)-1]
+
+			frag1.out.edge1 = frag2.start
+			nfaStack = append(nfaStack, &nfa{start: frag1.start, out: frag2.out})
+
+		case '|':
+			//pops two fragments off the stack creates a new start state from frag1 & start states
+			// create a blank state and adds a point to new values to the stack
+			frag2 := nfaStack[len(nfaStack)-1]
+			nfaStack = nfaStack[:len(nfaStack)-1]
+			frag1 := nfaStack[len(nfaStack)-1]
+			nfaStack = nfaStack[:len(nfaStack)-1]
+
+			start := state{edge1: frag1.start, edge2: frag2.start}
+			out := state{}
+			frag1.out.edge1 = &out
+			frag2.out.edge1 = &out
+
+			nfaStack = append(nfaStack, &nfa{start: &start, out: &out})
+
+		case '*':
+			// takes one fragment off the stack then creates a empty out state,
+			// create a new start state, then state and edge been included to the new out state
+			// appends the pointer to nfa with new values
+			frag := nfaStack[len(nfaStack)-1]
+			nfaStack = nfaStack[:len(nfaStack)-1]
+
+			out := state{}
+			start := state{edge1: frag.start, edge2: &out}
+			frag.out.edge1 = frag.start
+			frag.out.edge2 = &out
+
+			nfaStack = append(nfaStack, &nfa{start: &start, out: &out})
+		default:
+			//create empty out state
+			//creates a new start state wiht symbol = the rune
+			//and edge 1 = the new out state then appends a pointer to
+			//a new nfa with new values
+			out := state{}
+			start := state{symbol: r, edge1: &out}
+			nfaStack = append(nfaStack, &nfa{start: &start, out: &out})
+		}
+	}
+
+
+
+	return nfaStack[0]
 }
 
 func main() {
