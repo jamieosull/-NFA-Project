@@ -99,7 +99,7 @@ func poMatch(postfix string, s string) bool {
 	next := []*state{}
 	
 	// adds current to function addState
-	current = addState(current[:], poNfa.initial, poNfa.out)
+	current = addState(current[:], poNfa.start, poNfa.out)
 	
 	//loops through each rune 
 	for _, r := range s {
@@ -207,29 +207,7 @@ func main() {
 	//converts the infix notation to postfix notation
 	postfix := intopost(infix)
 	
-	fmt.Println(poMatch(strings.ToLower(postfix), strings.ToLower(checkString)))
+	fmt.Println(poMatch(strings.ToLower(postfix), strings.ToLower(string)))
 
-	
-	
-	
-
-	
-	
-
-	//Answer: ab.c*.
-	//fmt.Println("Infix:  ", "a.b.c*")
-	//fmt.Println("Postfix: ", intopost("a.b.c*"))
-
-	//Answer: abd|.*
-	//fmt.Println("Infix:  ", "(a.(b|d))*")
-	//fmt.Println("Postfix: ", intopost("(a.(b|d))*"))
-
-	//Answer: abd|.c*.
-	//fmt.Println("Infix:  ", "a.(b|d).c*")
-	//fmt.Println("Postfix: ", intopost("a.(b|d).c*"))
-
-	//Answer: abb.+.c.
-	//fmt.Println("Infix:  ", "a.(b.b)+.c")
-	//fmt.Println("Postfix: ", intopost("a.(b.b)+.c"))
 
 }
